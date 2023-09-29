@@ -1,3 +1,25 @@
+## CANT PULL THIS FILE
+## AFTER I PUSH IT REDIRECTS ME TO "MINGW 64"
+## MY FILENAME FOR WORKSHEET1 IS : RWorksheet_HUERVANAA1.R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vector 
 
 age <- c( 34, 28, 22, 36, 27, 18, 52, 39, 42, 29,
