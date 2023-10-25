@@ -1,5 +1,5 @@
 #RWorksheet_Huervana1
-
+a
 # 1
 # age vector
 
@@ -19,7 +19,7 @@ age
 vectorAge <- length(age)
 vectorAge
 
-
+#
 # 2 Write the R code and its output.
 reciprocalAge <- 1 / age
 reciprocalAge
