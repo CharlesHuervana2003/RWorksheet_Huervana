@@ -1,0 +1,107 @@
+---
+title: "RWorksheet_Huervana#4B"
+output: pdf_document
+date: "2023-10-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r name, echo = TRUE}
+
+#1 Using the for loop, create an R script that will display a 5x5 matrix as shown in Figure 1.
+
+vectorA <- c(1,2,3,4,5)
+
+mtrx <- matrix(0,nrow = 5, ncol =5)
+
+for (j in 1:5)
+  for (k in 1:5)
+  {
+    mtrx[j,k] <- abs (vectorA[j] - vectorA[k])
+  }
+
+mtrx
+
+#2. Print the string "*" using for() function. The output should be the same as shown in Figure
+
+for (j in 1:5) {
+  cat(paste0("\"", rep("*", j), "\""), "\n")
+}
+
+#3. Get an input from the user to print the Fibonacci sequence starting from the 1st input up to 500. Use repeat and break statements. Write the R Scripts and its output.
+
+# Function to calculate Fibonacci sequence
+fibonacci <- function(n) {
+ if (n <= 1) {
+    return(n)
+ } else {
+    return(fibonacci(n-1) + fibonacci(n-2))
+ }
+}
+
+# Input from the user
+n <- as.integer(readline(prompt="Enter a number (1-500): "))
+
+# Validate the input
+if (n < 1 || n > 500) {
+ cat("Invalid input! Please enter a number between 1 and 500.\n")
+} else {
+ # Calculate and print the Fibonacci sequence
+ cat("Fibonacci sequence starting from ", n, ":\n")
+ for (i in n:500) {
+    cat(fibonacci(i), "\n")
+ }
+}
+
+
+
+#3
+# Function to calculate Fibonacci sequence
+fibonacci <- function(n) {
+  if (n <= 1) {
+    return(n)
+  } else {
+    return(fibonacci(n-1) + fibonacci(n-2))
+  }
+}
+
+# Input from the user
+n <- as.integer(readline(prompt="Enter a number (1-500): "))
+
+# Validate the input
+if (n < 1 || n > 500) {
+  cat("Invalid input! Please enter a number between 1 and 500.\n")
+} else {
+  # Calculate and print the Fibonacci sequence
+  cat("Fibonacci sequence starting from ", n, ":\n")
+  
+  i <- n
+  repeat {
+    fib_value <- fibonacci(i)
+    
+    if (fib_value > 500) {
+      break
+    }
+    
+    cat(fib_value, "\n")
+    
+    i <- i + 1
+  }
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
