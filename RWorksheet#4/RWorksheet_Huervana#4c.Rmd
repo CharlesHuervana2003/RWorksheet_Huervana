@@ -1,0 +1,80 @@
+---
+title: "RWorksheet_Huervana#4c"
+output: pdf_document
+date: "2023-10-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Use the dataset mpg
+
+A. Show your solutions on how to import a csv file into the environment 
+```{r}
+
+mpg <- read.csv(file = "mpg.csv", header = T, sep = ",")
+mpg
+
+```
+
+B. Which variables from mpg dataset are categorical?
+
+```{r}
+
+mpgVar <- names(sapply(mpg, function(x) is.factor(x) || is.character(x)))
+mpgVar
+
+``` 
+
+C. Which are continuous variables? 
+
+```{r}
+
+### MALI PA ATA
+cont_vars_names <- names(sapply(mpg, is.numeric))
+cont_vars_names
+
+```
+
+2. Which manufacturer has the most models in this data set? Which model has the most variations?
+Show your answer. 
+
+```{r}
+
+
+library(dplyr)
+
+manufacturer_most_models <- mpg %>%
+  group_by(manufacturer) %>%
+  summarise(num_models = n_distinct(model)) %>%
+  arrange(desc(num_models)) %>%
+  head(1)
+
+
+model_most_variations <- mpg %>%
+  group_by(model) %>%
+  summarise(num_variations = n()) %>%
+  arrange(desc(num_variations)) %>%
+  head(1)
+
+
+cat("Manufacturer with the most models:", manufacturer_most_models$manufacturer, "\n")
+cat("Model with the most variations:", model_most_variations$model, "\n")
+
+
+```
+
+A.
+
+```{r}
+
+library(dplyr)
+
+manufacturers_unique_models <- mpg %>%
+  group_by(manufacturer) %>%
+  summarize(unique_models = n_distinct(model))
+
+print(manufacturers_unique_models)
+
+```
