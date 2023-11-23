@@ -22,8 +22,9 @@ B. Which variables from mpg dataset are categorical?
 
 ```{r}
 
-mpgVar <- names(sapply(mpg, function(x) is.factor(x) || is.character(x)))
-mpgVar
+is_cont <- sapply(mpg, is.character)
+catVars <- names(mpg)[is_cont]
+catVars
 
 ``` 
 
@@ -31,9 +32,9 @@ C. Which are continuous variables?
 
 ```{r}
 
-### MALI PA ATA
-cont_vars_names <- names(sapply(mpg, is.numeric))
-cont_vars_names
+is_cont <- sapply(mpg, is.numeric)
+conVars <- names(mpg)[is_cont]
+conVars
 
 ```
 
@@ -42,25 +43,21 @@ Show your answer.
 
 ```{r}
 
-
 library(dplyr)
 
-manufacturer_most_models <- mpg %>%
-  group_by(manufacturer) %>%
-  summarise(num_models = n_distinct(model)) %>%
-  arrange(desc(num_models)) %>%
-  head(1)
+
+MostModels <- summarise(group_by(mpg, manufacturer), numModels = n_distinct(model))
+MostModels <- arrange(MostModels, desc(numModels))
+MostModels <- head(MostModels, 1)
 
 
-model_most_variations <- mpg %>%
-  group_by(model) %>%
-  summarise(num_variations = n()) %>%
-  arrange(desc(num_variations)) %>%
-  head(1)
+MostVariations <- summarise(group_by(mpg, model), numVariations = n())
+MostVariations <- arrange(MostVariations, desc(numVariations))
+MostVariations <- head(MostVariations, 1)
 
 
-cat("Manufacturer with the most models:", manufacturer_most_models$manufacturer, "\n")
-cat("Model with the most variations:", model_most_variations$model, "\n")
+cat("Manufacturer with the most models: ", MostModels$manufacturer, "With ", MostModels$numModels, " models \n")
+cat("Model with the most variations: ", MostVariations$model, " with ", MostVariations$numVariations, " variations \n")
 
 
 ```
@@ -71,10 +68,96 @@ A.
 
 library(dplyr)
 
-manufacturers_unique_models <- mpg %>%
-  group_by(manufacturer) %>%
-  summarize(unique_models = n_distinct(model))
+UniqueModels <- summarize(group_by(mpg, manufacturer), unique_models = unique(model))
 
-print(manufacturers_unique_models)
+print(UniqueModels)
+
 
 ```
+
+B.
+
+```{r}
+
+
+# Using plot()
+plot(UniqueModels$unique_models,
+     names.arg = UniqueModels$manufacturer,
+     main = "Number of Unique Models by Manufacturer",
+     xlab = "Manufacturer",
+     ylab = "Number of Unique Models",
+     col = "blue",
+     border = "black",
+     las = 2,
+     ylim = c(0, max(UniqueModels$unique_models) + 1))
+
+
+
+
+# Using ggplot()
+library(ggplot2)
+
+ggplot(UniqueModels, aes(x = manufacturer, y = unique_models)) +
+  geom_bar(fill = "yellow", color = "black", stat = "identity") +
+  labs(title = "Number of Unique Models by Manufacturer",
+       x = "Manufacturer",
+       y = "Number of Unique Models") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+2.1
+
+```{r}
+
+# Load necessary library
+library(ggplot2)
+
+# Create a smaller bar plot
+ggplot(mpg, aes(x = manufacturer, fill = model)) +
+  geom_bar(width = 0.7) +
+  labs(title = "Relationship between Model and Manufacturer",
+       x = "Manufacturer",
+       y = "Count",
+       fill = "Model") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 12),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8))
+
+```
+
+A.
+
+```{r}
+
+ggplot(mpg, aes(model, manufacturer)) + geom_point() 
+
+#The horizontal axis (x-axis) represents the "model" variable, indicating different car models. The vertical axis (y-axis) represents the "manufacturer" variable, indicating various car manufacturers. Each point on the plot signifies a distinct pairing of a car model with its corresponding manufacturer.
+
+#The geom_point() function is employed to place points on the plot, representing each combination of two categorical variables—specifically, "model" and "manufacturer." This scatter plot effectively illustrates the distribution of car models across different manufacturers. 
+
+```
+
+B.
+
+```{r}
+
+ggplot(mpg, aes(x = model, y = manufacturer, color = class)) + geom_point()
+
+#
+
+#To make the plot more informative
+#I used different colors or shapes for points to represent additional categorical variables
+
+
+```
+
+3.
+
+```{r}
+
+```
+
+
+
